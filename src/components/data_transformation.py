@@ -41,10 +41,8 @@ class DataTransformation:
                 steps=[
                 ("imputer",SimpleImputer(strategy="median")),
                 ("scaler",StandardScaler())
-
                 ]
             )
-
             cat_pipeline=Pipeline(
 
                 steps=[
@@ -52,9 +50,7 @@ class DataTransformation:
                 ("one_hot_encoder",OneHotEncoder()),
                 ("scaler",StandardScaler(with_mean=False))
                 ]
-
             )
-
             logging.info(f"Categorical columns: {categorical_columns}")
             logging.info(f"Numerical columns: {numerical_columns}")
 
@@ -62,12 +58,8 @@ class DataTransformation:
                 [
                 ("num_pipeline",num_pipeline,numerical_columns),
                 ("cat_pipelines",cat_pipeline,categorical_columns)
-
                 ]
-
-
             )
-
             return preprocessor
         
         except Exception as e:
@@ -97,24 +89,18 @@ class DataTransformation:
             logging.info(
                 f"Applying preprocessing object on training dataframe and testing dataframe."
             )
-
             input_feature_train_arr=preprocessing_obj.fit_transform(input_feature_train_df)
             input_feature_test_arr=preprocessing_obj.transform(input_feature_test_df)
-
             train_arr = np.c_[
                 input_feature_train_arr, np.array(target_feature_train_df)
             ]
             test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)]
 
             logging.info(f"Saved preprocessing object.")
-
             save_object(
-
                 file_path=self.data_transformation_config.preprocessor_obj_file_path,
                 obj=preprocessing_obj
-
             )
-
             return (
                 train_arr,
                 test_arr,
